@@ -22,10 +22,4 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ## VS Code users
 
 dbaeumer.vscode-eslint plugin is recommended  
-To enable lint on save, in settings.json (Ctrl+Shift+P -> Preferences: Open Settings (JSON)) set:
-```json
-"editor.codeActionsOnSave": {
-  "source.fixAll": true
-},
-"editor.formatOnSave": false
-```
+Lint on save included in workspace settings.json
