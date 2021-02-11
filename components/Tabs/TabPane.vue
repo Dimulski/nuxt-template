@@ -6,7 +6,7 @@
     :class="{ 'active show': active }"
     :aria-expanded="active"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script>
@@ -16,18 +16,18 @@ export default {
   props: ['label', 'id', 'title'],
   data() {
     return {
-      active: false,
-    }
+      active: false
+    };
   },
   mounted() {
-    this.addTab(this)
+    this.addTab(this);
   },
   destroyed() {
     if (this.$el && this.$el.parentNode) {
-      this.$el.parentNode.removeChild(this.$el)
+      this.$el.parentNode.removeChild(this.$el);
     }
-    this.removeTab(this)
-  },
-}
+    this.removeTab(this);
+  }
+};
 </script>
 <style></style>

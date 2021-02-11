@@ -15,7 +15,9 @@
         v-if="$slots.percentage || showPercentage"
         class="progress-percentage"
       >
-        <slot name="percentage"> {{ value }} % </slot>
+        <slot name="percentage">
+          {{ value }} %
+        </slot>
       </div>
     </div>
     <div class="progress" :style="`height: ${height}px`">
@@ -27,7 +29,7 @@
         aria-valuemin="0"
         aria-valuemax="100"
         :style="`width: ${value}%;`"
-      ></div>
+      />
     </div>
   </div>
 </template>
@@ -37,51 +39,51 @@ export default {
   props: {
     striped: {
       type: Boolean,
-      description: 'Whether progress is striped',
+      description: 'Whether progress is striped'
     },
     animated: {
       type: Boolean,
       description:
-        'Whether progress is animated (works only with `striped` prop together)',
+        'Whether progress is animated (works only with `striped` prop together)'
     },
     showPercentage: {
       type: Boolean,
       default: true,
-      description: 'Whether progress bar should show percentage value',
+      description: 'Whether progress bar should show percentage value'
     },
     height: {
       type: Number,
       default: 3,
-      description: 'Progress line height',
+      description: 'Progress line height'
     },
     label: {
       type: String,
       default: '',
-      description: 'Progress label',
+      description: 'Progress label'
     },
     type: {
       type: String,
       default: 'default',
-      description: 'Progress type (e.g danger, primary etc)',
+      description: 'Progress type (e.g danger, primary etc)'
     },
     value: {
       type: Number,
       default: 0,
       validator: (value) => {
-        return value >= 0 && value <= 100
+        return value >= 0 && value <= 100;
       },
-      description: 'Progress value',
-    },
+      description: 'Progress value'
+    }
   },
   computed: {
     computedClasses() {
       return [
         { 'progress-bar-striped': this.striped },
         { 'progress-bar-animated': this.animated },
-        { [`bg-${this.type}`]: this.type },
-      ]
-    },
-  },
-}
+        { [`bg-${this.type}`]: this.type }
+      ];
+    }
+  }
+};
 </script>
 <style></style>

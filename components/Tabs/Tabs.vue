@@ -25,21 +25,21 @@
               :class="{ active: tab.active }"
               @click.prevent="activateTab(tab)"
             >
-              <tab-item-content :tab="tab"> </tab-item-content>
+              <tab-item-content :tab="tab" />
             </a>
           </li>
         </ul>
       </div>
     </template>
     <div slot="content" class="tab-content" :class="[tabContentClasses]">
-      <slot v-bind="slotData"></slot>
+      <slot v-bind="slotData" />
     </div>
   </component>
 </template>
 
 <script>
-import PillsLayout from './PillsLayout'
-import TabsLayout from './TabsLayout'
+import PillsLayout from './PillsLayout';
+import TabsLayout from './TabsLayout';
 export default {
   name: 'Tabs',
   components: {
@@ -48,15 +48,15 @@ export default {
     TabItemContent: {
       props: ['tab'],
       render(h) {
-        return h('div', [this.tab.$slots.title || this.tab.title])
-      },
-    },
+        return h('div', [this.tab.$slots.title || this.tab.title]);
+      }
+    }
   },
   provide() {
     return {
       addTab: this.addTab,
-      removeTab: this.removeTab,
-    }
+      removeTab: this.removeTab
+    };
   },
   props: {
     type: {
@@ -69,124 +69,124 @@ export default {
           'info',
           'success',
           'warning',
-          'danger',
-        ]
-        return acceptedValues.includes(value)
+          'danger'
+        ];
+        return acceptedValues.includes(value);
       },
-      description: 'Tabs type (primary|info|danger|default|warning|success)',
+      description: 'Tabs type (primary|info|danger|default|warning|success)'
     },
     pills: {
       type: Boolean,
       default: true,
-      description: 'Whether tabs are pills',
+      description: 'Whether tabs are pills'
     },
     circle: {
       type: Boolean,
       default: false,
-      description: 'Whether tabs are circle',
+      description: 'Whether tabs are circle'
     },
     fill: {
       type: Boolean,
       default: true,
-      description: 'Whether to fill each tab',
+      description: 'Whether to fill each tab'
     },
     activeTab: {
       type: String,
       default: '',
-      description: 'Default active tab name',
+      description: 'Default active tab name'
     },
     tabNavWrapperClasses: {
       type: [String, Object],
       default: '',
-      description: 'Tab Nav wrapper (div) css classes',
+      description: 'Tab Nav wrapper (div) css classes'
     },
     tabNavClasses: {
       type: [String, Object],
       default: '',
-      description: 'Tab Nav (ul) css classes',
+      description: 'Tab Nav (ul) css classes'
     },
     tabContentClasses: {
       type: [String, Object],
       default: '',
-      description: 'Tab content css classes',
+      description: 'Tab content css classes'
     },
     icons: {
       type: Boolean,
-      description: 'Whether tabs should be of icon type (small no text)',
+      description: 'Whether tabs should be of icon type (small no text)'
     },
     centered: {
       type: Boolean,
-      description: 'Whether tabs are centered',
+      description: 'Whether tabs are centered'
     },
     value: {
       type: String,
-      description: 'Initial value (active tab)',
-    },
+      description: 'Initial value (active tab)'
+    }
   },
   data() {
     return {
       tabs: [],
-      activeTabIndex: 0,
-    }
+      activeTabIndex: 0
+    };
   },
   computed: {
     layoutComponent() {
-      return this.pills ? 'pills-layout' : 'tabs-layout'
+      return this.pills ? 'pills-layout' : 'tabs-layout';
     },
     slotData() {
       return {
         activeTabIndex: this.activeTabIndex,
-        tabs: this.tabs,
-      }
-    },
+        tabs: this.tabs
+      };
+    }
   },
   watch: {
     value(newVal) {
-      this.findAndActivateTab(newVal)
-    },
+      this.findAndActivateTab(newVal);
+    }
   },
   mounted() {
     this.$nextTick(() => {
       if (this.value) {
-        this.findAndActivateTab(this.value)
+        this.findAndActivateTab(this.value);
       } else if (this.tabs.length > 0) {
-        this.activateTab(this.tabs[0])
+        this.activateTab(this.tabs[0]);
       }
-    })
+    });
   },
   methods: {
     findAndActivateTab(title) {
-      const tabToActivate = this.tabs.find((t) => t.title === title)
+      const tabToActivate = this.tabs.find(t => t.title === title);
       if (tabToActivate) {
-        this.activateTab(tabToActivate)
+        this.activateTab(tabToActivate);
       }
     },
     activateTab(tab) {
       if (this.handleClick) {
-        this.handleClick(tab)
+        this.handleClick(tab);
       }
-      this.deactivateTabs()
-      tab.active = true
-      this.activeTabIndex = this.tabs.findIndex((t) => t.active)
+      this.deactivateTabs();
+      tab.active = true;
+      this.activeTabIndex = this.tabs.findIndex(t => t.active);
     },
     deactivateTabs() {
       this.tabs.forEach((tab) => {
-        tab.active = false
-      })
+        tab.active = false;
+      });
     },
     addTab(tab) {
       if (this.activeTab === tab.name) {
-        tab.active = true
+        tab.active = true;
       }
-      this.tabs.push(tab)
+      this.tabs.push(tab);
     },
     removeTab(tab) {
-      const tabs = this.tabs
-      const index = tabs.indexOf(tab)
+      const tabs = this.tabs;
+      const index = tabs.indexOf(tab);
       if (index > -1) {
-        tabs.splice(index, 1)
+        tabs.splice(index, 1);
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>

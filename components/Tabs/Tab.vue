@@ -5,7 +5,7 @@
     class="tab-pane"
     :class="{ active: active }"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script>
@@ -16,28 +16,28 @@ export default {
     title: {
       type: String,
       default: '',
-      description: 'Tab pane title',
+      description: 'Tab pane title'
     },
     id: {
       type: String,
       default: null,
-      description: 'Tab pane id',
-    },
+      description: 'Tab pane id'
+    }
   },
   data() {
     return {
-      active: false,
-    }
+      active: false
+    };
   },
   mounted() {
-    this.addTab(this)
+    this.addTab(this);
   },
   destroyed() {
     if (this.$el && this.$el.parentNode) {
-      this.$el.parentNode.removeChild(this.$el)
+      this.$el.parentNode.removeChild(this.$el);
     }
-    this.removeTab(this)
-  },
-}
+    this.removeTab(this);
+  }
+};
 </script>
 <style></style>

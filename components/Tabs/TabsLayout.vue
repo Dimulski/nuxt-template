@@ -2,17 +2,17 @@
   <div>
     <div class="nav-tabs-navigation">
       <div class="nav-tabs-wrapper">
-        <slot name="nav"></slot>
+        <slot name="nav" />
       </div>
     </div>
     <div>
-      <slot name="content"></slot>
+      <slot name="content" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'TabsLayout',
-}
+  name: 'TabsLayout'
+};
 </script>

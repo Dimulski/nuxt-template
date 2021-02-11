@@ -5,7 +5,7 @@
       class="input-slider"
       :class="[`slider-${type}`]"
       :disabled="disabled"
-    ></div>
+    />
   </div>
 </template>
 <script>
@@ -16,44 +16,44 @@ export default {
   props: {
     value: {
       type: [String, Array, Number],
-      description: 'Slider value',
+      description: 'Slider value'
     },
     disabled: {
       type: Boolean,
-      description: 'Whether slider is disabled',
+      description: 'Whether slider is disabled'
     },
     range: {
       type: Object,
       default: () => {
         return {
           min: 0,
-          max: 100,
-        }
+          max: 100
+        };
       },
-      description: 'Slider range (defaults to 0-100)',
+      description: 'Slider range (defaults to 0-100)'
     },
     type: {
       type: String,
       default: '',
-      description: 'Slider type (e.g primary, danger etc)',
+      description: 'Slider type (e.g primary, danger etc)'
     },
     options: {
       type: Object,
       default: () => {
-        return {}
+        return {};
       },
-      description: 'noUiSlider options',
-    },
+      description: 'noUiSlider options'
+    }
   },
   data() {
     return {
-      slider: null,
-    }
+      slider: null
+    };
   },
   computed: {
     connect() {
-      return Array.isArray(this.value) || [true, false]
-    },
+      return Array.isArray(this.value) || [true, false];
+    }
   },
   watch: {
     value(newValue, oldValue) {
@@ -71,10 +71,10 @@ export default {
       //     slider.set(newValue)
       //   }
       // }
-    },
+    }
   },
   mounted() {
-    this.createSlider()
+    this.createSlider();
   },
   methods: {
     createSlider() {
@@ -91,7 +91,7 @@ export default {
       //     this.$emit('input', value)
       //   }
       // })
-    },
-  },
-}
+    }
+  }
+};
 </script>

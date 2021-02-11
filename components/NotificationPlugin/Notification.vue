@@ -6,30 +6,30 @@
       horizontalAlign,
       alertType,
     ]"
-    @click="tryClose"
     data-notify="container"
     class="alert alert-notify alert-dismissible"
     role="alert"
     :style="customPosition"
     data-notify-position="top-center"
+    @click="tryClose"
   >
     <template v-if="icon || $slots.icon">
       <slot name="icon">
         <span class="alert-icon" data-notify="icon">
-          <i :class="icon"></i>
+          <i :class="icon" />
         </span>
       </slot>
     </template>
 
     <span class="alert-text">
       <span v-if="title" class="title">
-        <b>{{ title }}<br /></b>
+        <b>{{ title }}<br></b>
       </span>
-      <span v-if="message" v-html="message"></span>
+      <span v-if="message" v-html="message" />
       <content-render
         v-if="!message && component"
         :component="component"
-      ></content-render>
+      />
     </span>
 
     <slot name="dismiss-icon">
@@ -51,8 +51,8 @@ export default {
   components: {
     contentRender: {
       props: ['component'],
-      render: (h) => h(this.component),
-    },
+      render: h => h(this.component)
+    }
   },
   props: {
     message: String,
@@ -62,17 +62,17 @@ export default {
       type: String,
       default: 'top',
       validator: (value) => {
-        const acceptedValues = ['top', 'bottom']
-        return acceptedValues.includes(value)
-      },
+        const acceptedValues = ['top', 'bottom'];
+        return acceptedValues.includes(value);
+      }
     },
     horizontalAlign: {
       type: String,
       default: 'right',
       validator: (value) => {
-        const acceptedValues = ['left', 'center', 'right']
-        return acceptedValues.includes(value)
-      },
+        const acceptedValues = ['left', 'center', 'right'];
+        return acceptedValues.includes(value);
+      }
     },
     type: {
       type: String,
@@ -84,90 +84,90 @@ export default {
           'primary',
           'danger',
           'warning',
-          'success',
-        ]
-        return acceptedValues.includes(value)
-      },
+          'success'
+        ];
+        return acceptedValues.includes(value);
+      }
     },
     timeout: {
       type: Number,
       default: 5000,
       validator: (value) => {
-        return value >= 0
-      },
+        return value >= 0;
+      }
     },
     timestamp: {
       type: Date,
-      default: () => new Date(),
+      default: () => new Date()
     },
     component: {
-      type: [Object, Function],
+      type: [Object, Function]
     },
     showClose: {
       type: Boolean,
-      default: true,
+      default: true
     },
     closeOnClick: {
       type: Boolean,
-      default: true,
+      default: true
     },
-    clickHandler: Function,
+    clickHandler: Function
   },
   data() {
     return {
-      elmHeight: 0,
-    }
+      elmHeight: 0
+    };
   },
   computed: {
     hasIcon() {
-      return this.icon && this.icon.length > 0
+      return this.icon && this.icon.length > 0;
     },
     alertType() {
-      return `alert-${this.type}`
+      return `alert-${this.type}`;
     },
     customPosition() {
-      const initialMargin = 20
-      const alertHeight = this.elmHeight + 10
+      const initialMargin = 20;
+      const alertHeight = this.elmHeight + 10;
       let sameAlertsCount = this.$notifications.state.filter((alert) => {
         return (
           alert.horizontalAlign === this.horizontalAlign &&
           alert.verticalAlign === this.verticalAlign &&
           alert.timestamp <= this.timestamp
-        )
-      }).length
+        );
+      }).length;
       if (this.$notifications.settings.overlap) {
-        sameAlertsCount = 1
+        sameAlertsCount = 1;
       }
-      const pixels = (sameAlertsCount - 1) * alertHeight + initialMargin
-      const styles = {}
+      const pixels = (sameAlertsCount - 1) * alertHeight + initialMargin;
+      const styles = {};
       if (this.verticalAlign === 'top') {
-        styles.top = `${pixels}px`
+        styles.top = `${pixels}px`;
       } else {
-        styles.bottom = `${pixels}px`
+        styles.bottom = `${pixels}px`;
       }
-      return styles
-    },
+      return styles;
+    }
   },
   mounted() {
-    this.elmHeight = this.$el.clientHeight
+    this.elmHeight = this.$el.clientHeight;
     if (this.timeout) {
-      setTimeout(this.close, this.timeout)
+      setTimeout(this.close, this.timeout);
     }
   },
   methods: {
     close() {
-      this.$emit('close', this.timestamp)
+      this.$emit('close', this.timestamp);
     },
     tryClose(evt) {
       if (this.clickHandler) {
-        this.clickHandler(evt, this)
+        this.clickHandler(evt, this);
       }
       if (this.closeOnClick) {
-        this.close()
+        this.close();
       }
-    },
-  },
-}
+    }
+  }
+};
 </script>
 <style lang="scss">
 .notifications .alert {

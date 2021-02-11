@@ -8,19 +8,19 @@
   >
     <slot v-if="!dismissible">
       <span v-if="icon" class="alert-inner--icon">
-        <i :class="icon"></i>
+        <i :class="icon" />
       </span>
       <span v-if="$slots.text" class="alert-inner--text">
-        <slot name="text"></slot>
+        <slot name="text" />
       </span>
     </slot>
     <template v-else>
       <slot>
         <span v-if="icon" class="alert-inner--icon">
-          <i :class="icon"></i>
+          <i :class="icon" />
         </span>
         <span v-if="$slots.text" class="alert-inner--text">
-          <slot name="text"></slot>
+          <slot name="text" />
         </span>
       </slot>
       <slot name="dismiss-icon">
@@ -50,28 +50,28 @@ export default {
     type: {
       type: String,
       default: 'default',
-      description: 'Alert type',
+      description: 'Alert type'
     },
     icon: {
       type: String,
       default: '',
-      description: 'Alert icon. Will be overwritten by default slot',
+      description: 'Alert icon. Will be overwritten by default slot'
     },
     dismissible: {
       type: Boolean,
       default: false,
-      description: 'Whether alert is closes when clicking',
-    },
+      description: 'Whether alert is closes when clicking'
+    }
   },
   data() {
     return {
-      visible: true,
-    }
+      visible: true
+    };
   },
   methods: {
     dismissAlert() {
-      this.visible = false
-    },
-  },
-}
+      this.visible = false;
+    }
+  }
+};
 </script>
