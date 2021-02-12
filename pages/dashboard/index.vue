@@ -150,7 +150,7 @@ import LineChart from '@/components/Charts/LineChart';
 import BarChart from '@/components/Charts/BarChart';
 
 // Components
-// import BaseProgress from '@/components/BaseProgress'
+// import BaseProgress from '@/components/BaseProgress';
 import StatsCard from '@/components/Cards/StatsCard';
 
 // Tables
@@ -189,12 +189,10 @@ export default {
       redBarChart: {
         chartData: {
           labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [
-            {
-              label: 'Sales',
-              data: [25, 20, 30, 22, 17, 29]
-            }
-          ]
+          datasets: [{
+            label: 'Sales',
+            data: [25, 20, 30, 22, 17, 29]
+          }]
         },
         extraOptions: chartConfigs.blueChartOptions
       }

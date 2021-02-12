@@ -1,64 +1,54 @@
 <template>
-  <!-- <SlideYUpTransition :duration="animationDuration"> -->
-  <div
-    v-show="show"
-    class="modal fade"
-    :class="[
-      { 'show d-block': show },
-      { 'd-none': !show },
-      { 'modal-mini': type === 'mini' },
-    ]"
-    tabindex="-1"
-    role="dialog"
-    :aria-hidden="!show"
-    @click.self="closeModal"
-  >
-    <div
-      class="modal-dialog modal-dialog-centered"
-      :class="[{ 'modal-notice': type === 'notice' }, modalClasses]"
+  <SlideYUpTransition :duration="animationDuration">
+    <b-modal
+      ref="app-modal"
+      class="modal fade"
+      :size="size"
+      :hide-header="!$slots.header"
+      :modal-class="[{'modal-mini': type === 'mini'}, ...modalClasses]"
+      tabindex="-1"
+      role="dialog"
+      centered
+      :header-class="headerClasses"
+      :footer-class="footerClasses"
+      :content-class="[gradient ? `bg-gradient-${gradient}` : '', ...modalContentClasses]"
+      :body-class="bodyClasses"
+      :aria-hidden="!show"
+      @mousedown.self="closeModal"
+      @close="closeModal"
+      @hide="closeModal"
     >
-      <div
-        class="modal-content"
-        :class="[
-          gradient ? `bg-gradient-${gradient}` : '',
-          modalContentClasses,
-        ]"
-      >
-        <div v-if="$slots.header" class="modal-header" :class="[headerClasses]">
-          <slot name="header" />
-          <slot name="close-button">
-            <button
-              v-if="showClose"
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-              @click="closeModal"
-            >
-              <span :aria-hidden="!show">×</span>
-            </button>
-          </slot>
-        </div>
+      <template #modal-header>
+        <slot name="header" />
+        <slot name="close-button">
+          <button
+            v-if="showClose"
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            @click="closeModal"
+          >
+            <span :aria-hidden="!show">×</span>
+          </button>
+        </slot>
+      </template>
 
-        <div class="modal-body" :class="bodyClasses">
-          <slot />
-        </div>
+      <slot />
 
-        <div v-if="$slots.footer" class="modal-footer" :class="footerClasses">
-          <slot name="footer" />
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- </SlideYUpTransition> -->
+      <template #modal-footer>
+        <slot name="footer" />
+      </template>
+    </b-modal>
+  </SlideYUpTransition>
 </template>
 <script>
-// import { SlideYUpTransition } from 'vue2-transitions'
+import { SlideYUpTransition } from 'vue2-transitions';
 
 export default {
   name: 'Modal',
   components: {
-    // SlideYUpTransition,
+    SlideYUpTransition
   },
   props: {
     show: Boolean,
@@ -78,6 +68,14 @@ export default {
     modalClasses: {
       type: [Object, String],
       description: 'Modal dialog css classes'
+    },
+    size: {
+      type: String,
+      description: 'Modal size',
+      validator(value) {
+        const acceptedValues = ['', 'sm', 'lg'];
+        return acceptedValues.includes(value);
+      }
     },
     modalContentClasses: {
       type: [Object, String],
@@ -107,12 +105,11 @@ export default {
   },
   watch: {
     show(val) {
-      // const documentClassess = document.body.classList
-      // if (val) {
-      //   documentClassess.add('modal-open')
-      // } else {
-      //   documentClassess.remove('modal-open')
-      // }
+      if (val) {
+        this.$refs['app-modal'].show();
+      } else {
+        this.$refs['app-modal'].hide();
+      }
     }
   },
   methods: {
@@ -124,7 +121,7 @@ export default {
 };
 </script>
 <style>
-.modal.show {
-  background-color: rgba(0, 0, 0, 0.3);
-}
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+  }
 </style>

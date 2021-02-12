@@ -6,9 +6,7 @@
           <h5 v-if="title" class="card-title text-uppercase text-muted mb-0">
             {{ title }}
           </h5>
-          <span v-if="subTitle" class="h2 font-weight-bold mb-0">{{
-            subTitle
-          }}</span>
+          <span v-if="subTitle" class="h2 font-weight-bold mb-0">{{ subTitle }}</span>
         </slot>
       </b-col>
 

@@ -1,50 +1,54 @@
 <template>
-  <component :is="layoutComponent">
-    <template slot="nav">
-      <div class="nav-wrapper">
-        <ul
-          class="nav"
+  <div>
+    <div
+      :class="[
+        { 'col-md-4': vertical && !tabNavWrapperClasses },
+        { 'col-12': centered && !tabNavWrapperClasses },
+        tabNavWrapperClasses
+      ]"
+    >
+      <b-nav
+        class="nav-pills"
+        role="tablist"
+        :class="[
+          `nav-pills-${type}`,
+          { 'flex-column': vertical },
+          { 'justify-content-center': centered },
+          tabNavClasses
+        ]"
+      >
+        <b-nav-item
+          v-for="tab in tabs"
+          :key="tab.id"
+          class="active"
+          data-toggle="tab"
           role="tablist"
-          :class="[
-            type ? `nav-pills-${type}` : '',
-            pills ? 'nav-pills' : 'nav-tabs',
-            { 'nav-pills-icons': icons },
-            { 'nav-fill': fill },
-            { 'nav-pills-circle': circle },
-            { 'justify-content-center': centered },
-            tabNavClasses,
-          ]"
+          :active="tab.active"
+          :href="`#${tab.id}`"
+          :aria-expanded="tab.active"
+          @click.prevent="activateTab(tab)"
         >
-          <li v-for="tab in tabs" :key="tab.id || tab.title" class="nav-item">
-            <a
-              data-toggle="tab"
-              role="tab"
-              class="nav-link"
-              :href="`#${tab.id || tab.title}`"
-              :aria-selected="tab.active"
-              :class="{ active: tab.active }"
-              @click.prevent="activateTab(tab)"
-            >
-              <tab-item-content :tab="tab" />
-            </a>
-          </li>
-        </ul>
-      </div>
-    </template>
-    <div slot="content" class="tab-content" :class="[tabContentClasses]">
-      <slot v-bind="slotData" />
+          <tab-item-content :tab="tab" />
+        </b-nav-item>
+      </b-nav>
     </div>
-  </component>
+    <div
+      class="tab-content"
+      :class="[
+        { 'tab-space': !vertical },
+        { 'col-md-8': vertical && !tabContentClasses },
+        tabContentClasses
+      ]"
+    >
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script>
-import PillsLayout from './PillsLayout';
-import TabsLayout from './TabsLayout';
 export default {
   name: 'Tabs',
   components: {
-    TabsLayout,
-    PillsLayout,
     TabItemContent: {
       props: ['tab'],
       render(h) {
@@ -61,10 +65,9 @@ export default {
   props: {
     type: {
       type: String,
-      default: '',
+      default: 'primary',
       validator: (value) => {
         const acceptedValues = [
-          '',
           'primary',
           'info',
           'success',
@@ -72,73 +75,36 @@ export default {
           'danger'
         ];
         return acceptedValues.includes(value);
-      },
-      description: 'Tabs type (primary|info|danger|default|warning|success)'
-    },
-    pills: {
-      type: Boolean,
-      default: true,
-      description: 'Whether tabs are pills'
-    },
-    circle: {
-      type: Boolean,
-      default: false,
-      description: 'Whether tabs are circle'
-    },
-    fill: {
-      type: Boolean,
-      default: true,
-      description: 'Whether to fill each tab'
+      }
     },
     activeTab: {
       type: String,
       default: '',
-      description: 'Default active tab name'
+      description: 'Active tab name'
     },
     tabNavWrapperClasses: {
       type: [String, Object],
       default: '',
-      description: 'Tab Nav wrapper (div) css classes'
+      description: 'ul wrapper css classes'
     },
     tabNavClasses: {
       type: [String, Object],
       default: '',
-      description: 'Tab Nav (ul) css classes'
+      description: 'ul css classes'
     },
     tabContentClasses: {
       type: [String, Object],
       default: '',
-      description: 'Tab content css classes'
+      description: 'tab content css classes'
     },
-    icons: {
-      type: Boolean,
-      description: 'Whether tabs should be of icon type (small no text)'
-    },
-    centered: {
-      type: Boolean,
-      description: 'Whether tabs are centered'
-    },
-    value: {
-      type: String,
-      description: 'Initial value (active tab)'
-    }
+    vertical: Boolean,
+    centered: Boolean,
+    value: String
   },
   data() {
     return {
-      tabs: [],
-      activeTabIndex: 0
+      tabs: []
     };
-  },
-  computed: {
-    layoutComponent() {
-      return this.pills ? 'pills-layout' : 'tabs-layout';
-    },
-    slotData() {
-      return {
-        activeTabIndex: this.activeTabIndex,
-        tabs: this.tabs
-      };
-    }
   },
   watch: {
     value(newVal) {
@@ -149,8 +115,6 @@ export default {
     this.$nextTick(() => {
       if (this.value) {
         this.findAndActivateTab(this.value);
-      } else if (this.tabs.length > 0) {
-        this.activateTab(this.tabs[0]);
       }
     });
   },
@@ -167,7 +131,6 @@ export default {
       }
       this.deactivateTabs();
       tab.active = true;
-      this.activeTabIndex = this.tabs.findIndex(t => t.active);
     },
     deactivateTabs() {
       this.tabs.forEach((tab) => {
@@ -175,10 +138,14 @@ export default {
       });
     },
     addTab(tab) {
+      const index = this.$slots.default.indexOf(tab.$vnode);
+      if (!this.activeTab && index === 0) {
+        tab.active = true;
+      }
       if (this.activeTab === tab.name) {
         tab.active = true;
       }
-      this.tabs.push(tab);
+      this.tabs.splice(index, 0, tab);
     },
     removeTab(tab) {
       const tabs = this.tabs;
@@ -190,3 +157,5 @@ export default {
   }
 };
 </script>
+
+<style scoped></style>

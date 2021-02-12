@@ -1,12 +1,15 @@
 <template>
   <div
     class="custom-control custom-checkbox"
-    :class="{ disabled: disabled, 'form-check-inline': inline }"
+    :class="[
+      {disabled: disabled},
+      {[`custom-checkbox-${type}`]: type},inlineClass]"
   >
     <input
       :id="cbId"
       v-model="model"
       class="custom-control-input"
+      :class="inputClasses"
       type="checkbox"
       :disabled="disabled"
     >
@@ -18,8 +21,6 @@
   </div>
 </template>
 <script>
-import { randomString } from './stringUtils';
-
 export default {
   name: 'BaseCheckbox',
   model: {
@@ -37,6 +38,14 @@ export default {
     inline: {
       type: Boolean,
       description: 'Whether checkbox is inline'
+    },
+    inputClasses: {
+      type: [String, Object, Array],
+      description: 'Checkbox input classes'
+    },
+    type: {
+      type: String,
+      description: 'Checkbox type (e.g info, danger etc)'
     }
   },
   data() {
@@ -56,10 +65,17 @@ export default {
         }
         this.$emit('input', check);
       }
+    },
+    inlineClass() {
+      if (this.inline) {
+        return 'form-check-inline';
+      }
     }
   },
-  mounted() {
-    this.cbId = randomString();
+  created() {
+    this.cbId = Math.random()
+      .toString(16)
+      .slice(2);
   }
 };
 </script>

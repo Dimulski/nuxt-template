@@ -1,106 +1,58 @@
 <template>
-  <component
-    :is="tag"
-    :type="tag === 'button' ? nativeType : ''"
-    class="btn"
-    :class="classes"
+  <b-button
+    :type="nativeType"
+    :disabled="disabled || loading"
+    class="base-button"
+    :variant="!outline ? type : `outline-${type}`"
+    :size="size"
+    :block="block"
+    :class="[
+      { 'rounded-circle': round },
+      { 'btn-wd': wide },
+      { 'btn-icon btn-fab': icon },
+      { 'btn-link': link },
+      { disabled: disabled }
+    ]"
     @click="handleClick"
   >
-    <span
-      v-if="$slots.icon || (icon && $slots.default)"
-      class="btn-inner--icon"
-    >
-      <slot name="icon">
-        <i :class="icon" />
-      </slot>
-    </span>
-    <i v-if="!$slots.default" :class="icon" />
-    <span
-      v-if="$slots.icon || (icon && $slots.default)"
-      class="btn-inner--text"
-    >
-      <slot>
-        {{ text }}
-      </slot>
-    </span>
-    <slot v-if="!$slots.icon && !icon" />
-  </component>
+    <slot name="loading">
+      <i v-if="loading" class="fas fa-spinner fa-spin" />
+    </slot>
+    <slot />
+  </b-button>
 </template>
 <script>
 export default {
   name: 'BaseButton',
   props: {
-    tag: {
-      type: String,
-      default: 'button',
-      description: 'Button tag (default -> button)'
-    },
+    round: Boolean,
+    icon: Boolean,
+    block: Boolean,
+    loading: Boolean,
+    wide: Boolean,
+    disabled: Boolean,
     type: {
       type: String,
       default: 'default',
-      description: 'Button type (e,g primary, danger etc)'
-    },
-    size: {
-      type: String,
-      default: '',
-      description: 'Button size lg|sm'
-    },
-    textColor: {
-      type: String,
-      default: '',
-      description: 'Button text color (e.g primary, danger etc)'
+      description: 'Button type (primary|secondary|danger etc)'
     },
     nativeType: {
       type: String,
       default: 'button',
-      description: 'Button native type (e.g submit,button etc)'
+      description: 'Button native type (e.g button, input etc)'
     },
-    icon: {
+    size: {
       type: String,
       default: '',
-      description: 'Button icon'
-    },
-    text: {
-      type: String,
-      default: '',
-      description: 'Button text in case not provided via default slot'
+      description: 'Button size (sm|lg)'
     },
     outline: {
       type: Boolean,
-      default: false,
-      description: 'Whether button style is outline'
+      description: 'Whether button is outlined (only border has color)'
     },
-    rounded: {
+    link: {
       type: Boolean,
-      default: false,
-      description: 'Whether button style is rounded'
-    },
-    iconOnly: {
-      type: Boolean,
-      default: false,
-      description: 'Whether button contains only an icon'
-    },
-    block: {
-      type: Boolean,
-      default: false,
-      description: 'Whether button is of block type'
-    }
-  },
-  computed: {
-    classes() {
-      const btnClasses = [
-        { 'btn-block': this.block },
-        { 'rounded-circle': this.rounded },
-        { 'btn-icon-only': this.iconOnly },
-        { [`text-${this.textColor}`]: this.textColor },
-        { 'btn-icon': this.icon || this.$slots.icon },
-        this.type && !this.outline ? `btn-${this.type}` : '',
-        this.outline ? `btn-outline-${this.type}` : ''
-      ];
-      if (this.size) {
-        btnClasses.push(`btn-${this.size}`);
-      }
-      return btnClasses;
+      description: 'Whether button is a link (no borders or background)'
     }
   },
   methods: {
@@ -110,4 +62,14 @@ export default {
   }
 };
 </script>
-<style></style>
+<style lang="scss">
+  .base-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      padding: 0 3px;
+    }
+  }
+</style>

@@ -1,4 +1,4 @@
-import Notifications from './Notifications.vue';
+import Vue from 'vue';
 
 const NotificationStore = {
   state: [], // here the notifications will be added
@@ -42,25 +42,9 @@ const NotificationStore = {
   }
 };
 
-const NotificationsPlugin = {
-  install(Vue, options) {
-    const app = new Vue({
-      data: {
-        notificationStore: NotificationStore
-      },
-      methods: {
-        notify(notification) {
-          this.notificationStore.notify(notification);
-        }
-      }
-    });
-    Vue.prototype.$notify = app.notify;
-    Vue.prototype.$notifications = app.notificationStore;
-    Vue.component('Notifications', Notifications);
-    if (options) {
-      NotificationStore.setOptions(options);
-    }
+export default ({ app }, inject) => {
+  if (!Vue.__notificationPluginMixin__) {
+    Vue.__notificationPluginMixin__ = true;
+    inject('notifications', Vue.observable({ ...NotificationStore }));
   }
 };
-
-export default NotificationsPlugin;

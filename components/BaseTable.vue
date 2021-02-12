@@ -12,7 +12,11 @@
     <tbody :class="tbodyClasses">
       <tr v-for="(item, index) in data" :key="index">
         <slot :row="item" :index="index">
-          <td v-for="(column, index) in colsWithValue(item)" :key="index">
+          <td
+            v-for="(column, index) in columns"
+            v-if="hasValue(item, column)"
+            :key="index"
+          >
             {{ itemValue(item, column) }}
           </td>
         </slot>
@@ -53,11 +57,6 @@ export default {
   computed: {
     tableClass() {
       return this.type && `table-${this.type}`;
-    },
-    colsWithValue() {
-      return (row) => {
-        return this.columns.filter(column => this.hasValue(row, column));
-      };
     }
   },
   methods: {

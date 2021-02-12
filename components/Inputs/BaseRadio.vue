@@ -12,12 +12,13 @@
       :value="name"
     >
     <label :for="cbId" class="custom-control-label">
-      <slot />
+      <slot>
+        <span v-if="inline">&nbsp;</span>
+      </slot>
     </label>
   </div>
 </template>
 <script>
-import { randomString } from './stringUtils';
 export default {
   name: 'BaseRadio',
   props: {
@@ -59,8 +60,10 @@ export default {
       return '';
     }
   },
-  mounted() {
-    this.cbId = randomString();
+  created() {
+    this.cbId = Math.random()
+      .toString(16)
+      .slice(2);
   }
 };
 </script>

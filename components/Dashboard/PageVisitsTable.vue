@@ -18,18 +18,34 @@
       :data="tableData"
       header-row-class-name="thead-light"
     >
-      <el-table-column label="Page name" min-width="130px" prop="page">
-        <template #default="{ row }">
+      <el-table-column
+        label="Page name"
+        min-width="130px"
+        prop="page"
+      >
+        <template #default="{row}">
           <div class="font-weight-600">
             {{ row.page }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Visitors" min-width="70px" prop="visitors" />
-      <el-table-column label="Unique users" min-width="90px" prop="unique" />
+      <el-table-column
+        label="Visitors"
+        min-width="70px"
+        prop="visitors"
+      />
+      <el-table-column
+        label="Unique users"
+        min-width="90px"
+        prop="unique"
+      />
 
-      <el-table-column label="Bounce rate" min-width="90px" prop="bounceRate">
-        <template #default="{ row }">
+      <el-table-column
+        label="Bounce rate"
+        min-width="90px"
+        prop="bounceRate"
+      >
+        <template #default="{row}">
           {{ row.bounceRate }}
         </template>
       </el-table-column>
@@ -37,14 +53,7 @@
   </b-card>
 </template>
 <script>
-import {
-  Table,
-  TableColumn,
-  DropdownMenu,
-  DropdownItem,
-  Dropdown
-} from 'element-ui';
-
+import { Table, TableColumn, DropdownMenu, DropdownItem, Dropdown } from 'element-ui';
 export default {
   name: 'PageVisitsTable',
   components: {
@@ -92,4 +101,5 @@ export default {
   }
 };
 </script>
-<style></style>
+<style>
+</style>

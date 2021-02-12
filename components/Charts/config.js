@@ -1,4 +1,5 @@
 import { parseOptions } from '@/components/Charts/optionHelpers';
+import Chart from 'chart.js';
 
 export const Charts = {
   mode: 'light', // (themeMode) ? themeMode : 'light';
@@ -32,7 +33,7 @@ export const Charts = {
   }
 };
 
-function chartOptions(Chart) {
+function chartOptions() {
   const { colors, mode, fonts } = Charts;
   // Options
   const options = {
@@ -40,8 +41,8 @@ function chartOptions(Chart) {
       global: {
         responsive: true,
         maintainAspectRatio: false,
-        defaultColor: mode == 'dark' ? colors.gray[700] : colors.gray[600],
-        defaultFontColor: mode == 'dark' ? colors.gray[700] : colors.gray[600],
+        defaultColor: (mode === 'dark') ? colors.gray[700] : colors.gray[600],
+        defaultFontColor: (mode === 'dark') ? colors.gray[700] : colors.gray[600],
         defaultFontFamily: fonts.base,
         defaultFontSize: 13,
         layout: {
@@ -72,7 +73,7 @@ function chartOptions(Chart) {
           },
           arc: {
             backgroundColor: colors.theme.primary,
-            borderColor: mode == 'dark' ? colors.gray[800] : colors.white,
+            borderColor: (mode == 'dark') ? colors.gray[800] : colors.white,
             borderWidth: 4
           }
         },
@@ -82,7 +83,15 @@ function chartOptions(Chart) {
           intersect: false
         }
       },
+      pie: {
+        tooltips: {
+          mode: 'point'
+        }
+      },
       doughnut: {
+        tooltips: {
+          mode: 'point'
+        },
         cutoutPercentage: 83,
         legendCallback(chart) {
           const data = chart.data;
@@ -92,10 +101,7 @@ function chartOptions(Chart) {
             const bgColor = data.datasets[0].backgroundColor[index];
 
             content += '<span class="chart-legend-item">';
-            content +=
-              '<i class="chart-legend-indicator" style="background-color: ' +
-              bgColor +
-              '"></i>';
+            content += '<i class="chart-legend-indicator" style="background-color: ' + bgColor + '"></i>';
             content += label;
             content += '</span>';
           });
@@ -111,12 +117,11 @@ function chartOptions(Chart) {
     gridLines: {
       borderDash: [2],
       borderDashOffset: [2],
-      color: mode == 'dark' ? colors.gray[900] : colors.gray[300],
+      color: (mode === 'dark') ? colors.gray[900] : colors.gray[200],
       drawBorder: false,
-      drawTicks: false,
-      lineWidth: 0,
-      zeroLineWidth: 0,
-      zeroLineColor: mode == 'dark' ? colors.gray[900] : colors.gray[300],
+      drawTicks: true,
+      zeroLineWidth: 1,
+      zeroLineColor: (mode === 'dark') ? colors.gray[900] : colors.gray[200],
       zeroLineBorderDash: [2],
       zeroLineBorderDashOffset: [2]
     },
@@ -136,7 +141,9 @@ function chartOptions(Chart) {
     gridLines: {
       drawBorder: false,
       drawOnChartArea: false,
-      drawTicks: false
+      drawTicks: false,
+      lineWidth: 1,
+      zeroLineWidth: 1
     },
     ticks: {
       padding: 20
@@ -145,10 +152,16 @@ function chartOptions(Chart) {
   });
 
   return options;
-}
+};
 
-export function initGlobalOptions(Chart) {
-  parseOptions(Chart, chartOptions(Chart));
+let initialized = false;
+
+export function initGlobalOptions() {
+  if (initialized) {
+    return;
+  }
+  parseOptions(Chart, chartOptions());
+  initialized = true;
 }
 
 export const basicOptions = {
@@ -160,21 +173,12 @@ export const basicOptions = {
 };
 export const blueChartOptions = {
   scales: {
-    yAxes: [
-      {
-        gridLines: {
-          color: Charts.colors.gray[700],
-          zeroLineColor: Charts.colors.gray[700]
-        },
-        ticks: {
-          callback(value) {
-            if (!(value % 10)) {
-              return '$' + value + 'k';
-            }
-          }
-        }
+    yAxes: [{
+      gridLines: {
+        color: Charts.colors.gray[700],
+        zeroLineColor: Charts.colors.gray[700]
       }
-    ]
+    }]
   }
 };
 
@@ -212,282 +216,6 @@ export const lineChartOptionsBlue = {
     xAxes: [
       {
         barPercentage: 1.6,
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(29,140,248,0.1)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          padding: 20,
-          fontColor: '#9e9e9e'
-        }
-      }
-    ]
-  }
-};
-
-export const barChartOptionsGradient = {
-  ...basicOptions,
-  tooltips: {
-    backgroundColor: '#f5f5f5',
-    titleFontColor: '#333',
-    bodyFontColor: '#666',
-    bodySpacing: 4,
-    xPadding: 12,
-    mode: 'nearest',
-    intersect: 0,
-    position: 'nearest'
-  },
-  responsive: true,
-  scales: {
-    yAxes: [
-      {
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(253,93,147,0.1)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          suggestedMin: 60,
-          suggestedMax: 125,
-          padding: 20,
-          fontColor: '#9e9e9e'
-        }
-      }
-    ],
-
-    xAxes: [
-      {
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(253,93,147,0.1)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          padding: 20,
-          fontColor: '#9e9e9e'
-        }
-      }
-    ]
-  }
-};
-
-export const pieChartOptions = {
-  ...basicOptions,
-  cutoutPercentage: 70,
-  tooltips: {
-    backgroundColor: '#f5f5f5',
-    titleFontColor: '#333',
-    bodyFontColor: '#666',
-    bodySpacing: 4,
-    xPadding: 12,
-    mode: 'nearest',
-    intersect: 0,
-    position: 'nearest'
-  },
-
-  scales: {
-    yAxes: [
-      {
-        display: 0,
-        ticks: {
-          display: false
-        },
-        gridLines: {
-          drawBorder: false,
-          zeroLineColor: 'transparent',
-          color: 'rgba(255,255,255,0.05)'
-        }
-      }
-    ],
-
-    xAxes: [
-      {
-        display: 0,
-        barPercentage: 1.6,
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(255,255,255,0.1)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          display: false
-        }
-      }
-    ]
-  }
-};
-
-export const purpleChartOptions = {
-  ...basicOptions,
-  tooltips: {
-    backgroundColor: '#f5f5f5',
-    titleFontColor: '#333',
-    bodyFontColor: '#666',
-    bodySpacing: 4,
-    xPadding: 12,
-    mode: 'nearest',
-    intersect: 0,
-    position: 'nearest'
-  },
-  scales: {
-    yAxes: [
-      {
-        barPercentage: 1.6,
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(29,140,248,0.0)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          suggestedMin: 60,
-          suggestedMax: 125,
-          padding: 20,
-          fontColor: '#9a9a9a'
-        }
-      }
-    ],
-
-    xAxes: [
-      {
-        barPercentage: 1.6,
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(225,78,202,0.1)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          padding: 20,
-          fontColor: '#9a9a9a'
-        }
-      }
-    ]
-  }
-};
-
-export const orangeChartOptions = {
-  ...basicOptions,
-  tooltips: {
-    backgroundColor: '#f5f5f5',
-    titleFontColor: '#333',
-    bodyFontColor: '#666',
-    bodySpacing: 4,
-    xPadding: 12,
-    mode: 'nearest',
-    intersect: 0,
-    position: 'nearest'
-  },
-  scales: {
-    yAxes: [
-      {
-        barPercentage: 1.6,
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(29,140,248,0.0)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          suggestedMin: 50,
-          suggestedMax: 110,
-          padding: 20,
-          fontColor: '#ff8a76'
-        }
-      }
-    ],
-
-    xAxes: [
-      {
-        barPercentage: 1.6,
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(220,53,69,0.1)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          padding: 20,
-          fontColor: '#ff8a76'
-        }
-      }
-    ]
-  }
-};
-export const greenChartOptions = {
-  ...basicOptions,
-  tooltips: {
-    backgroundColor: '#f5f5f5',
-    titleFontColor: '#333',
-    bodyFontColor: '#666',
-    bodySpacing: 4,
-    xPadding: 12,
-    mode: 'nearest',
-    intersect: 0,
-    position: 'nearest'
-  },
-  scales: {
-    yAxes: [
-      {
-        barPercentage: 1.6,
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(29,140,248,0.0)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          suggestedMin: 50,
-          suggestedMax: 125,
-          padding: 20,
-          fontColor: '#9e9e9e'
-        }
-      }
-    ],
-
-    xAxes: [
-      {
-        barPercentage: 1.6,
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(0,242,195,0.1)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          padding: 20,
-          fontColor: '#9e9e9e'
-        }
-      }
-    ]
-  }
-};
-
-export const barChartOptions = {
-  ...basicOptions,
-  tooltips: {
-    backgroundColor: '#f5f5f5',
-    titleFontColor: '#333',
-    bodyFontColor: '#666',
-    bodySpacing: 4,
-    xPadding: 12,
-    mode: 'nearest',
-    intersect: 0,
-    position: 'nearest'
-  },
-  scales: {
-    yAxes: [
-      {
-        gridLines: {
-          drawBorder: false,
-          color: 'rgba(29,140,248,0.1)',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          suggestedMin: 60,
-          suggestedMax: 120,
-          padding: 20,
-          fontColor: '#9e9e9e'
-        }
-      }
-    ],
-    xAxes: [
-      {
         gridLines: {
           drawBorder: false,
           color: 'rgba(29,140,248,0.1)',

@@ -4,6 +4,7 @@
     :id="id || title"
     class="tab-pane"
     :class="{ active: active }"
+    :aria-expanded="active"
   >
     <slot />
   </div>
@@ -12,18 +13,7 @@
 export default {
   name: 'TabPane',
   inject: ['addTab', 'removeTab'],
-  props: {
-    title: {
-      type: String,
-      default: '',
-      description: 'Tab pane title'
-    },
-    id: {
-      type: String,
-      default: null,
-      description: 'Tab pane id'
-    }
-  },
+  props: ['title', 'id'],
   data() {
     return {
       active: false

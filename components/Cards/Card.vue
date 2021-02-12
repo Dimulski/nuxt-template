@@ -2,11 +2,11 @@
   <b-card
     no-body
     :class="[
-      { 'card-lift--hover': hover },
-      { shadow: shadow },
-      { [`shadow-${shadowSize}`]: shadowSize },
-      { [`bg-gradient-${gradient}`]: gradient },
-      { [`bg-${type}`]: type },
+      {'card-lift--hover': hover},
+      {'shadow': shadow},
+      {[`shadow-${shadowSize}`]: shadowSize},
+      {[`bg-gradient-${gradient}`]: gradient},
+      {[`bg-${type}`]: type}
     ]"
   >
     <slot name="image" />
@@ -68,4 +68,5 @@ export default {
   }
 };
 </script>
-<style></style>
+<style>
+</style>

@@ -1,7 +1,7 @@
-import Chart from 'chart.js';
 import { initGlobalOptions } from '@/components/Charts/config';
+import './roundedCornersExtension';
 export default {
   mounted() {
-    initGlobalOptions(Chart);
+    initGlobalOptions();
   }
 };

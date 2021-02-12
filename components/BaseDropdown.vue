@@ -2,33 +2,28 @@
   <component
     :is="tag"
     v-click-outside="closeDropDown"
-    class="dropdown"
-    :class="[
-      { show: isOpen },
-      { dropdown: direction === 'down' },
-      { dropup: direction === 'up' },
-    ]"
-    aria-haspopup="true"
-    :aria-expanded="isOpen"
+    :class="[{ show: isOpen }, `drop${direction}`]"
     @click="toggleDropDown"
   >
-    <slot name="title">
-      <a
-        class="dropdown-toggle nav-link"
-        :class="{ 'no-caret': hideArrow }"
+    <slot name="title-container" :is-open="isOpen">
+      <component
+        :is="titleTag"
+        class="btn-rotate"
+        :class="[{'dropdown-toggle': hasToggle}, titleClasses]"
+        :aria-expanded="isOpen"
         data-toggle="dropdown"
       >
-        <i :class="icon" />
-        <span class="no-icon">{{ title }}</span>
-      </a>
+        <slot name="title" :is-open="isOpen">
+          <i :class="icon" /> {{ title }}
+        </slot>
+      </component>
     </slot>
     <ul
-      ref="menu"
       class="dropdown-menu"
       :class="[
-        { 'dropdown-menu-right': position === 'right' },
         { show: isOpen },
-        menuClasses,
+        { 'dropdown-menu-right': menuOnRight },
+        menuClasses
       ]"
     >
       <slot />
@@ -39,39 +34,45 @@
 export default {
   name: 'BaseDropdown',
   props: {
-    direction: {
+    tag: {
       type: String,
-      default: 'down'
+      default: 'div',
+      description: 'Dropdown html tag (e.g div, ul etc)'
+    },
+    titleTag: {
+      type: String,
+      default: 'button',
+      description: 'Dropdown title (toggle) html tag'
     },
     title: {
       type: String,
       description: 'Dropdown title'
     },
+    direction: {
+      type: String,
+      default: 'down', // up | down
+      description: 'Dropdown menu direction (up|down)'
+    },
     icon: {
       type: String,
-      description: 'Icon for dropdown title'
+      description: 'Dropdown icon'
     },
-    position: {
-      type: String,
-      description: 'Position of dropdown menu (e.g right|left)'
+    titleClasses: {
+      type: [String, Object, Array],
+      description: 'Title css classes'
     },
     menuClasses: {
       type: [String, Object],
-      description: 'Dropdown menu classes'
+      description: 'Menu css classes'
     },
-    hideArrow: {
+    menuOnRight: {
       type: Boolean,
-      description: 'Whether dropdown arrow should be hidden'
+      description: 'Whether menu should appear on the right'
     },
-    appendToBody: {
+    hasToggle: {
       type: Boolean,
-      default: true,
-      description: 'Whether dropdown should be appended to document body'
-    },
-    tag: {
-      type: String,
-      default: 'li',
-      description: 'Dropdown html tag (e.g div, li etc)'
+      description: 'Whether dropdown has arrow icon shown',
+      default: true
     }
   },
   data() {
@@ -86,17 +87,14 @@ export default {
     },
     closeDropDown() {
       this.isOpen = false;
-      this.$emit('change', this.isOpen);
+      this.$emit('change', false);
     }
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
 .dropdown {
-  list-style-type: none;
-}
-
-.dropdown .dropdown-toggle {
   cursor: pointer;
+  user-select: none;
 }
 </style>

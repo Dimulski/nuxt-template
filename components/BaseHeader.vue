@@ -1,10 +1,10 @@
 <template>
-  <div class="header" :class="{ [`bg-${type}`]: type }">
-    <div class="container-fluid">
+  <div class="header" :class="{[`bg-${type}`]: type}">
+    <b-container fluid>
       <div class="header-body">
         <slot />
       </div>
-    </div>
+    </b-container>
   </div>
 </template>
 <script>
@@ -13,10 +13,11 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'primary',
+      default: 'success',
       description: 'Header background type'
     }
   }
 };
 </script>
-<style></style>
+<style>
+</style>

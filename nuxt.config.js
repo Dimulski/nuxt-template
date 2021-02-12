@@ -17,12 +17,13 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/scss/argon.scss', '@/assets/vendor/nucleo/css/nucleo.css'],
+  css: ['@/assets/scss/argon.scss', '@/assets/vendor/nucleo/css/nucleo.css', 'node_modules/perfect-scrollbar/css/perfect-scrollbar.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/argon-dashboard.js',
     '~/components/SidebarPlugin/index.js',
+    '~/components/NotificationPlugin/index.js',
     '~/directives/click-outside.js'
   ],
 

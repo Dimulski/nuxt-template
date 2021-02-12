@@ -8,8 +8,8 @@
     :aria-expanded="toggled"
     aria-label="Toggle navigation"
   >
+    <span class="navbar-toggler-icon" />
     <slot>
-      <span />
       <span />
     </slot>
   </button>

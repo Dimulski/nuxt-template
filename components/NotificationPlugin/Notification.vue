@@ -1,13 +1,13 @@
 <template>
   <div
+    data-notify="container"
+    class="alert alert-notify alert-dismissible"
     :class="[
       { 'alert-with-icon': icon },
       verticalAlign,
       horizontalAlign,
-      alertType,
+      alertType
     ]"
-    data-notify="container"
-    class="alert alert-notify alert-dismissible"
     role="alert"
     :style="customPosition"
     data-notify-position="top-center"
@@ -22,6 +22,7 @@
     </template>
 
     <span class="alert-text">
+
       <span v-if="title" class="title">
         <b>{{ title }}<br></b>
       </span>
@@ -51,20 +52,29 @@ export default {
   components: {
     contentRender: {
       props: ['component'],
-      render: h => h(this.component)
+      render(createElement) {
+        return createElement(this.component);
+      }
     }
   },
   props: {
     message: String,
-    title: String,
-    icon: String,
+    title: {
+      type: String,
+      description: 'Notification title'
+    },
+    icon: {
+      type: String,
+      description: 'Notification icon'
+    },
     verticalAlign: {
       type: String,
       default: 'top',
       validator: (value) => {
         const acceptedValues = ['top', 'bottom'];
         return acceptedValues.includes(value);
-      }
+      },
+      description: 'Vertical alignment of notification (top|bottom)'
     },
     horizontalAlign: {
       type: String,
@@ -72,7 +82,8 @@ export default {
       validator: (value) => {
         const acceptedValues = ['left', 'center', 'right'];
         return acceptedValues.includes(value);
-      }
+      },
+      description: 'Horizontal alignment of notification (left|center|right)'
     },
     type: {
       type: String,
@@ -87,31 +98,40 @@ export default {
           'success'
         ];
         return acceptedValues.includes(value);
-      }
+      },
+      description: 'Notification type of notification (default|info|primary|danger|warning|success)'
     },
     timeout: {
       type: Number,
       default: 5000,
       validator: (value) => {
         return value >= 0;
-      }
+      },
+      description: 'Notification timeout (closes after X milliseconds). Default is 5000 (5s)'
     },
     timestamp: {
       type: Date,
-      default: () => new Date()
+      default: () => new Date(),
+      description: 'Notification timestamp (used internally to handle notification removal correctly)'
     },
     component: {
-      type: [Object, Function]
+      type: [Object, Function],
+      description: 'Custom content component. Cane be a `.vue` component or render function'
     },
     showClose: {
       type: Boolean,
-      default: true
+      default: true,
+      description: 'Whether to show close button'
     },
     closeOnClick: {
       type: Boolean,
-      default: true
+      default: true,
+      description: 'Whether to close notification when clicking it\' body'
     },
-    clickHandler: Function
+    clickHandler: {
+      type: Function,
+      description: 'Custom notification click handler'
+    }
   },
   data() {
     return {
@@ -131,8 +151,8 @@ export default {
       let sameAlertsCount = this.$notifications.state.filter((alert) => {
         return (
           alert.horizontalAlign === this.horizontalAlign &&
-          alert.verticalAlign === this.verticalAlign &&
-          alert.timestamp <= this.timestamp
+            alert.verticalAlign === this.verticalAlign &&
+            alert.timestamp <= this.timestamp
         );
       }).length;
       if (this.$notifications.settings.overlap) {
@@ -170,22 +190,22 @@ export default {
 };
 </script>
 <style lang="scss">
-.notifications .alert {
-  position: fixed;
-  z-index: 10000;
+  .notifications .alert {
+    position: fixed;
+    z-index: 10000;
 
-  &[data-notify='container'] {
-    max-width: 500px;
-  }
+    &[data-notify='container'] {
+      max-width: 500px;
+    }
 
-  &.center {
-    margin: 0 auto;
+    &.center {
+      margin: 0 auto;
+    }
+    &.left {
+      left: 20px;
+    }
+    &.right {
+      right: 20px;
+    }
   }
-  &.left {
-    left: 20px;
-  }
-  &.right {
-    right: 20px;
-  }
-}
 </style>

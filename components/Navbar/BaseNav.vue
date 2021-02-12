@@ -1,0 +1,124 @@
+<template>
+  <b-navbar toggleable :class="classes">
+    <div :class="containerClasses">
+      <slot name="brand" />
+
+      <slot name="toggle-button">
+        <button
+          v-if="hasMenu"
+          class="navbar-toggler collapsed"
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          @click="toggleMenu"
+        >
+          <span class="navbar-toggler-bar navbar-kebab" />
+          <span class="navbar-toggler-bar navbar-kebab" />
+          <span class="navbar-toggler-bar navbar-kebab" />
+        </button>
+      </slot>
+
+      <b-navbar-toggle
+        target="nav-text-collapse"
+        @click.stop="toggleMenu"
+      />
+
+      <b-collapse
+        id="nav-text-collapse"
+        v-click-outside="closeMenu"
+        is-nav
+        class="navbar-custom-collapse collapse"
+        :class="menuClasses"
+        :visible="show"
+      >
+        <slot :close-menu="closeMenu" />
+      </b-collapse>
+    </div>
+  </b-navbar>
+</template>
+<script>
+export default {
+  name: 'BaseNav',
+  model: {
+    prop: 'show',
+    event: 'change'
+  },
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+      description:
+        'Whether navbar menu is shown (valid for viewports < specified by `expand` prop)'
+    },
+    transparent: {
+      type: Boolean,
+      default: false,
+      description: 'Whether navbar is transparent'
+    },
+    expand: {
+      type: String,
+      default: 'lg',
+      description: 'Breakpoint where nav should expand'
+    },
+    menuClasses: {
+      type: [String, Object, Array],
+      default: '',
+      description:
+        'Navbar menu (items) classes. Can be used to align menu items to the right/left'
+    },
+    containerClasses: {
+      type: [String, Object, Array],
+      default: 'container',
+      description:
+        'Container classes. Can be used to control container classes (contains both navbar brand and menu items)'
+    },
+    type: {
+      type: String,
+      default: '',
+      validator(value) {
+        return [
+          '',
+          'dark',
+          'success',
+          'danger',
+          'warning',
+          'white',
+          'primary',
+          'light',
+          'info',
+          'vue'
+        ].includes(value);
+      },
+      description: 'Navbar color type'
+    }
+  },
+  computed: {
+    classes() {
+      const color = `bg-${this.type}`;
+      const classes = [
+        { 'navbar-transparent': this.transparent },
+        { [`navbar-expand-${this.expand}`]: this.expand }
+      ];
+      if (this.position) {
+        classes.push(`navbar-${this.position}`);
+      }
+      if (!this.transparent) {
+        classes.push(color);
+      }
+      return classes;
+    },
+    hasMenu() {
+      return this.$slots.default;
+    }
+  },
+  methods: {
+    toggleMenu() {
+      this.$emit('change', !this.show);
+    },
+    closeMenu() {
+      this.$emit('change', false);
+    }
+  }
+};
+</script>
+<style></style>

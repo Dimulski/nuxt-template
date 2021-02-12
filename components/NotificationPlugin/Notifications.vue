@@ -1,25 +1,28 @@
 <template>
   <div class="notifications">
-    <!-- <slide-y-up-transition :duration="transitionDuration" group mode="out-in"> -->
-    <!-- <Notification
-      v-for="notification in notifications"
-      v-bind="notification"
-      :key="notification.timestamp.getTime()"
-      :click-handler="notification.onClick"
-      @close="removeNotification"
+    <slide-y-up-transition
+      :duration="transitionDuration"
+      group
+      mode="out-in"
     >
-    </Notification> -->
-    <!-- </slide-y-up-transition> -->
+      <notification
+        v-for="notification in notifications"
+        v-bind="notification"
+        :key="notification.timestamp.getTime()"
+        :click-handler="notification.onClick"
+        @close="removeNotification"
+      />
+    </slide-y-up-transition>
   </div>
 </template>
 <script>
-// import { SlideYUpTransition } from 'vue2-transitions'
-// import Notification from './Notification.vue'
+import { SlideYUpTransition } from 'vue2-transitions';
+import Notification from './Notification.vue';
 
 export default {
   components: {
-    // SlideYUpTransition,
-    // Notification,
+    SlideYUpTransition,
+    Notification
   },
   props: {
     transitionDuration: {

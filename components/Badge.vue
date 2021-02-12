@@ -1,17 +1,14 @@
 <template>
-  <component
-    :is="tag"
-    class="badge"
-    :class="[
-      `badge-${type}`,
-      rounded ? `badge-pill` : '',
-      circle && 'badge-circle',
-    ]"
+  <b-badge
+    :variant="type"
+    :pill="rounded"
+    :size="size"
+    :class="{'badge-circle': circle }"
   >
     <slot>
       <i v-if="icon" :class="icon" />
     </slot>
-  </component>
+  </b-badge>
 </template>
 <script>
 export default {
@@ -41,8 +38,14 @@ export default {
       type: String,
       default: 'default',
       description: 'Badge type (primary|info|danger|default|warning|success)'
+    },
+    size: {
+      type: String,
+      description: 'Badge size (md, lg)',
+      default: ''
     }
   }
 };
 </script>
-<style></style>
+<style>
+</style>

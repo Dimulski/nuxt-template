@@ -1,84 +1,71 @@
 <template>
-  <nav
-    id="sidenav-main"
-    class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white"
-  >
-    <!--Toggler-->
-    <navbar-toggle-button @click.native="showSidebar">
-      <span class="navbar-toggler-icon" />
-    </navbar-toggle-button>
-    <router-link class="navbar-brand" to="/">
-      <img :src="logo" class="navbar-brand-img" alt="...">
-    </router-link>
+  <nav id="sidenav-main" class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white">
+    <div class="container-fluid">
+      <!--Toggler-->
+      <navbar-toggle-button @click.native="showSidebar" />
+      <router-link class="navbar-brand" to="/">
+        <img :src="logo" class="navbar-brand-img" alt="...">
+      </router-link>
 
-    <slot name="mobile-right">
-      <ul class="nav align-items-center d-md-none">
-        <base-dropdown class="nav-item" position="right">
-          <a
-            slot="title"
-            class="nav-link nav-link-icon"
-            href="#"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <i class="ni ni-bell-55" />
-          </a>
+      <slot name="mobile-right">
+        <ul class="nav align-items-center d-md-none">
+          <base-dropdown class="nav-item" menu-on-right tag="li" title-tag="a">
+            <a
+              slot="title-container"
+              class="nav-link nav-link-icon"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="ni ni-bell-55" />
+            </a>
 
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider" />
-          <a class="dropdown-item" href="#">Something else here</a>
-        </base-dropdown>
-        <base-dropdown class="nav-item" position="right">
-          <a slot="title" class="nav-link" href="#" role="button">
-            <div class="media align-items-center">
-              <span class="avatar avatar-sm rounded-circle">
-                <img
-                  alt="Image placeholder"
-                  src="img/theme/team-1-800x800.jpg"
-                >
-              </span>
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider" />
+            <a class="dropdown-item" href="#">Something else here</a>
+          </base-dropdown>
+          <base-dropdown class="nav-item" menu-on-right tag="li" title-tag="a">
+            <a slot="title-container" class="nav-link" href="#" role="button">
+              <div class="media align-items-center">
+                <span class="avatar avatar-sm rounded-circle">
+                  <img alt="Image placeholder" src="img/theme/team-1.jpg">
+                </span>
+              </div>
+            </a>
+
+            <div class=" dropdown-header noti-title">
+              <h6 class="text-overflow m-0">
+                Welcome!
+              </h6>
             </div>
-          </a>
-
-          <div class="dropdown-header noti-title">
-            <h6 class="text-overflow m-0">
-              Welcome!
-            </h6>
-          </div>
-          <router-link to="/profile" class="dropdown-item">
-            <i class="ni ni-single-02" />
-            <span>My profile</span>
-          </router-link>
-          <router-link to="/profile" class="dropdown-item">
-            <i class="ni ni-settings-gear-65" />
-            <span>Settings</span>
-          </router-link>
-          <router-link to="/profile" class="dropdown-item">
-            <i class="ni ni-calendar-grid-58" />
-            <span>Activity</span>
-          </router-link>
-          <router-link to="/profile" class="dropdown-item">
-            <i class="ni ni-support-16" />
-            <span>Support</span>
-          </router-link>
-          <div class="dropdown-divider" />
-          <a href="#!" class="dropdown-item">
-            <i class="ni ni-user-run" />
-            <span>Logout</span>
-          </a>
-        </base-dropdown>
-      </ul>
-    </slot>
-    <slot />
-    <div v-show="$sidebar.showSidebar" id="sidenav-collapse-main" class="navbar-collapse collapse show">
-      <div
-        v-show="true"
-        id="sidenav-collapse-main"
-        class="navbar-collapse collapse show"
-      >
+            <router-link to="/profile" class="dropdown-item">
+              <i class="ni ni-single-02" />
+              <span>My profile</span>
+            </router-link>
+            <router-link to="/profile" class="dropdown-item">
+              <i class="ni ni-settings-gear-65" />
+              <span>Settings</span>
+            </router-link>
+            <router-link to="/profile" class="dropdown-item">
+              <i class="ni ni-calendar-grid-58" />
+              <span>Activity</span>
+            </router-link>
+            <router-link to="/profile" class="dropdown-item">
+              <i class="ni ni-support-16" />
+              <span>Support</span>
+            </router-link>
+            <div class="dropdown-divider" />
+            <a href="#!" class="dropdown-item">
+              <i class="ni ni-user-run" />
+              <span>Logout</span>
+            </a>
+          </base-dropdown>
+        </ul>
+      </slot>
+      <slot />
+      <div v-show="$sidebar.showSidebar" id="sidenav-collapse-main" class="navbar-collapse collapse show">
         <div class="navbar-collapse-header d-md-none">
           <div class="row">
             <div class="col-6 collapse-brand">
@@ -87,9 +74,7 @@
               </router-link>
             </div>
             <div class="col-6 collapse-close">
-              <navbar-toggle-button
-                @click.native="closeSidebar"
-              />
+              <navbar-toggle-button @click.native="closeSidebar" />
             </div>
           </div>
         </div>
@@ -108,7 +93,7 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              href="https://demos.creative-tim.com/vue-argon-dashboard/documentation"
+              href="https://www.creative-tim.com/learning-lab/bootstrap-vue/alerts/argon-dashboard"
             >
               <i class="ni ni-spaceship" /> Getting started
             </a>
@@ -116,7 +101,7 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              href="https://demos.creative-tim.com/vue-argon-dashboard/documentation/foundation/colors.html"
+              href="https://www.creative-tim.com/learning-lab/bootstrap-vue/colors/argon-dashboard"
             >
               <i class="ni ni-palette" /> Foundation
             </a>
@@ -124,7 +109,7 @@
           <li class="nav-item">
             <a
               class="nav-link"
-              href="https://demos.creative-tim.com/vue-argon-dashboard/documentation/components/alerts.html"
+              href="https://www.creative-tim.com/learning-lab/bootstrap-vue/alerts/argon-dashboard"
             >
               <i class="ni ni-ui-04" /> Components
             </a>
@@ -156,17 +141,13 @@ export default {
     autoClose: {
       type: Boolean,
       default: true,
-      description:
-        'Whether sidebar should autoclose on mobile when clicking an item'
+      description: 'Whether sidebar should autoclose on mobile when clicking an item'
     }
   },
   beforeDestroy() {
     if (this.$sidebar.showSidebar) {
       this.$sidebar.showSidebar = false;
     }
-  },
-  mounted() {
-
   },
   methods: {
     closeSidebar() {
