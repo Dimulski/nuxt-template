@@ -12,13 +12,18 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.5",
-    "bootstrap-vue": "^2.21.2",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.5.0",
     "chart.js": "^2.9.3",
     "core-js": "^3.8.3",
+    "es6-promise": "^4.2.8",
+    "nouislider": "^12.1.0",
     "nuxt": "^2.14.12",
     "nuxt-element-ui": "^1.0.10",
     "nuxt-i18n": "^6.18.0",
-    "vue-chartjs": "^3.5.0"
+    "vee-validate": "^3.2.1",
+    "vue-chartjs": "^3.5.0",
+    "vue2-transitions": "^0.2.3"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^5.0.0",

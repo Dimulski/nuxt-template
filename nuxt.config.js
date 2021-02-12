@@ -21,10 +21,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // '~/plugins/argon-dashboard.js'
+    '~/plugins/argon-dashboard.js',
     '~/components/SidebarPlugin/index.js',
     '~/directives/click-outside.js'
-
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
