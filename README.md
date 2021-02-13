@@ -1,5 +1,8 @@
 # nuxt-template
 
+A Nuxt port of Bootstrap-Vue-Argon-Dashboard.
+Base project: https://github.com/creativetimofficial/bootstrap-vue-argon-dashboard
+
 ## Build Setup
 
 ```bash
